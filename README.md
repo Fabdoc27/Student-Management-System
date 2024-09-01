@@ -6,14 +6,14 @@ A simple PHP-based CRUD application for managing student records using file stor
 
 1. **Clone the repository:**
 
-    ```bash
+    ```shell
     git clone git@github.com:ashrafulbinharun/Student-Management-System.git
     cd Student-Management-System
     ```
 
 2. **Start the PHP built-in server:**
 
-    ```bash
+    ```shell
     php -S localhost:8080
     ```
 
