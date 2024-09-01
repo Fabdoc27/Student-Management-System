@@ -6,7 +6,7 @@
     $error = $_GET['error'] ?? 0;
     $alert = "";
 
-    if ( $task == 'seed' ) {
+    if ($task == 'seed') {
         seed();
         $alert = "Seeding is completed";
     }
@@ -14,28 +14,28 @@
     // $fname = "";
     // $lname = "";
     // $roll = "";
-    if ( isset( $_POST['submit'] ) ) {
-        $fname = filter_input( INPUT_POST, 'fname', FILTER_SANITIZE_STRING );
-        $lname = filter_input( INPUT_POST, 'lname', FILTER_SANITIZE_STRING );
-        $roll = filter_input( INPUT_POST, 'roll', FILTER_SANITIZE_NUMBER_INT );
-        $id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT );
+    if (isset($_POST['submit'])) {
+        $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
+        $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_STRING);
+        $roll = filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-        if ( $id ) {
+        if ($id) {
             // update existing student
-            if ( $fname != '' && $lname != '' && $roll != '' ) {
-                $result = updateStudent( $id, $fname, $lname, $roll );
-                if ( $result ) {
-                    header( 'location: /index.php?task=report' );
+            if ($fname != '' && $lname != '' && $roll != '') {
+                $result = updateStudent($id, $fname, $lname, $roll);
+                if ($result) {
+                    header('location: /index.php?task=report');
                 } else {
                     $error = 1;
                 }
             }
         } else {
             // add a new student
-            if ( $fname != '' && $lname != '' && $roll != '' ) {
-                $result = addStudent( $fname, $lname, $roll );
-                if ( $result ) {
-                    header( 'location: /index.php?task=report' );
+            if ($fname != '' && $lname != '' && $roll != '') {
+                $result = addStudent($fname, $lname, $roll);
+                if ($result) {
+                    header('location: /index.php?task=report');
                 } else {
                     $error = 1;
                 }
@@ -43,11 +43,11 @@
         }
     }
 
-    if ( $task == 'delete' ) {
-        $id = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
-        if ( $id > 0 ) {
-            deleteStudent( (int) $id );
-            header( 'location: /index.php?task=report' );
+    if ($task == 'delete') {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        if ($id > 0) {
+            deleteStudent((int) $id);
+            header('location: /index.php?task=report');
         }
     }
 
@@ -89,21 +89,21 @@
         <?php include_once './inc/nav_links.php'?>
         <hr>
 
-        <?php if ( $alert != "" ) {
+        <?php if ($alert != "") {
                 echo "<blockquote>{$alert}</blockquote>";
         }?>
 
         <?php
-            if ( $task == 'report' ) {
+            if ($task == 'report') {
                 generateReport();
             }
         ?>
 
-        <?php if ( $error == 1 ): ?>
+        <?php if ($error == 1): ?>
         <blockquote>Duplicate Roll Number.</blockquote>
         <?php endif;?>
 
-        <?php if ( $task == 'add' ): ?>
+        <?php if ($task == 'add'): ?>
         <form action="./index.php?task=add" method="POST">
             <div class="grid">
                 <div>
@@ -123,10 +123,10 @@
         </form>
         <?php endif;?>
 
-        <?php if ( $task == 'edit' ):
-                $id = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
-                $student = getStudent( $id );
-                if ( $student ):
+        <?php if ($task == 'edit'):
+                $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+                $student = getStudent($id);
+                if ($student):
             ?>
 	        <form method="POST">
 	            <div class="grid">

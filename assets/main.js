@@ -1,84 +1,92 @@
 const themeSwitcher = {
     // Config
-    _scheme: "auto",
-    menuTarget: "details.dropdown",
-    buttonsTarget: "a[data-theme-switcher]",
-    buttonAttribute: "data-theme-switcher",
-    rootAttribute: "data-theme",
-    localStorageKey: "picoPreferredColorScheme",
+    _scheme: 'auto',
+    menuTarget: 'details.dropdown',
+    buttonsTarget: 'a[data-theme-switcher]',
+    buttonAttribute: 'data-theme-switcher',
+    rootAttribute: 'data-theme',
+    localStorageKey: 'picoPreferredColorScheme',
 
     // Init
     init() {
-        this.scheme = this.schemeFromLocalStorage;
-        this.initSwitchers();
+        this.scheme = this.schemeFromLocalStorage
+        this.initSwitchers()
     },
 
     // Get color scheme from local storage
     get schemeFromLocalStorage() {
-        return window.localStorage?.getItem(this.localStorageKey) ?? this._scheme;
+        return (
+            window.localStorage?.getItem(this.localStorageKey) ?? this._scheme
+        )
     },
 
     // Preferred color scheme
     get preferredColorScheme() {
-        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
     },
 
     // Init switchers
     initSwitchers() {
-        const buttons = document.querySelectorAll(this.buttonsTarget);
+        const buttons = document.querySelectorAll(this.buttonsTarget)
         buttons.forEach((button) => {
             button.addEventListener(
-                "click",
+                'click',
                 (event) => {
-                    event.preventDefault();
+                    event.preventDefault()
                     // Set scheme
-                    this.scheme = button.getAttribute(this.buttonAttribute);
+                    this.scheme = button.getAttribute(this.buttonAttribute)
                     // Close dropdown
-                    document.querySelector(this.menuTarget)?.removeAttribute("open");
+                    document
+                        .querySelector(this.menuTarget)
+                        ?.removeAttribute('open')
                 },
-                false
-            );
-        });
+                false,
+            )
+        })
     },
 
     // Set scheme
     set scheme(scheme) {
-        if (scheme == "auto") {
-            this._scheme = this.preferredColorScheme;
-        } else if (scheme == "dark" || scheme == "light") {
-            this._scheme = scheme;
+        if (scheme == 'auto') {
+            this._scheme = this.preferredColorScheme
+        } else if (scheme == 'dark' || scheme == 'light') {
+            this._scheme = scheme
         }
-        this.applyScheme();
-        this.schemeToLocalStorage();
+        this.applyScheme()
+        this.schemeToLocalStorage()
     },
 
     // Get scheme
     get scheme() {
-        return this._scheme;
+        return this._scheme
     },
 
     // Apply scheme
     applyScheme() {
-        document.querySelector("html")?.setAttribute(this.rootAttribute, this.scheme);
+        document
+            .querySelector('html')
+            ?.setAttribute(this.rootAttribute, this.scheme)
     },
 
     // Store scheme to local storage
     schemeToLocalStorage() {
-        window.localStorage?.setItem(this.localStorageKey, this.scheme);
+        window.localStorage?.setItem(this.localStorageKey, this.scheme)
     },
-};
+}
 
 // Init
-themeSwitcher.init();
+themeSwitcher.init()
 
 // delete alert
 document.addEventListener('DOMContentLoaded', function () {
-    var del = document.querySelectorAll(".delete");
+    var del = document.querySelectorAll('.delete')
     for (i = 0; i < del.length; i++) {
-        del[i].addEventListener("click", function (e) {
-            if (!confirm("Are you sure?")) {
-                e.preventDefault();
+        del[i].addEventListener('click', function (e) {
+            if (!confirm('Are you sure?')) {
+                e.preventDefault()
             }
         })
     }
-});
+})

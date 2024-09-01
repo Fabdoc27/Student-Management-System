@@ -1,6 +1,6 @@
 <?php
 
-    define( 'DB', __DIR__ . DIRECTORY_SEPARATOR . "../data/db.txt" );
+    define('DB', __DIR__ . DIRECTORY_SEPARATOR . "../data/db.txt");
 
     function seed(): void {
         $data = [
@@ -30,19 +30,19 @@
             ],
         ];
 
-        saveStudents( $data );
+        saveStudents($data);
     }
 
-    function addStudent( $fname, $lname, $roll ): bool {
+    function addStudent($fname, $lname, $roll): bool {
         $students = getAllStudents();
 
         // Check for duplicate roll number
-        foreach ( $students as $_student ) {
-            if ( $_student['roll'] == $roll ) {
+        foreach ($students as $_student) {
+            if ($_student['roll'] == $roll) {
                 return false;
             }
         }
-        $newId = getNewId( $students );
+        $newId = getNewId($students);
 
         $student = [
             'id'    => $newId,
@@ -52,31 +52,31 @@
         ];
 
         $students[] = $student;
-        saveStudents( $students );
+        saveStudents($students);
 
         return true;
     }
 
-    function getNewId( array $students ): int {
-        $maxId = max( array_column( $students, 'id' ) );
+    function getNewId(array $students): int {
+        $maxId = max(array_column($students, 'id'));
         return $maxId + 1;
     }
 
     function getAllStudents(): array {
-        $serializedData = file_get_contents( DB );
-        return unserialize( $serializedData ) ?: [];
+        $serializedData = file_get_contents(DB);
+        return unserialize($serializedData) ?: [];
     }
 
-    function saveStudents( array $students ): void {
-        $serializedData = serialize( $students );
-        file_put_contents( DB, $serializedData, LOCK_EX );
+    function saveStudents(array $students): void {
+        $serializedData = serialize($students);
+        file_put_contents(DB, $serializedData, LOCK_EX);
     }
 
-    function getStudent( int $id ): ?array {
+    function getStudent(int $id): ?array {
         $students = getAllStudents();
 
-        foreach ( $students as $student ) {
-            if ( $student['id'] == $id ) {
+        foreach ($students as $student) {
+            if ($student['id'] == $id) {
                 return $student;
             }
         }
@@ -84,38 +84,38 @@
         return null;
     }
 
-    function updateStudent( int $id, string $fname, string $lname, int $roll ): bool {
+    function updateStudent(int $id, string $fname, string $lname, int $roll): bool {
         $duplicateRoll = false;
         $students = getAllStudents();
 
-        foreach ( $students as $_student ) {
-            if ( $_student['roll'] == $roll && $_student['id'] != $id ) {
+        foreach ($students as $_student) {
+            if ($_student['roll'] == $roll && $_student['id'] != $id) {
                 $duplicateRoll = true;
                 break;
             }
         }
 
-        if ( !$duplicateRoll ) {
+        if (!$duplicateRoll) {
             $students[$id - 1]['fname'] = $fname;
             $students[$id - 1]['lname'] = $lname;
             $students[$id - 1]['roll'] = $roll;
-            saveStudents( $students );
+            saveStudents($students);
             return true;
         }
 
         return false;
     }
 
-    function deleteStudent( int $id ): void {
+    function deleteStudent(int $id): void {
         $students = getAllStudents();
 
-        foreach ( $students as $offset => $student ) {
-            if ( $student['id'] == $id ) {
-                unset( $students[$offset] );
+        foreach ($students as $offset => $student) {
+            if ($student['id'] == $id) {
+                unset($students[$offset]);
             }
         }
 
-        saveStudents( $students );
+        saveStudents($students);
         return;
     }
 
@@ -131,14 +131,14 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ( $students as $student ): ?>
+        <?php foreach ($students as $student): ?>
         <tr>
             <th scope="row">
-                <?php printf( '%s %s', $student['fname'], $student['lname'] )?>
+                <?php printf('%s %s', $student['fname'], $student['lname'])?>
             </th>
-            <td><?php printf( '%s', $student['roll'] )?></td>
+            <td><?php printf('%s', $student['roll'])?></td>
             <td>
-                <?php printf( '<a href="./index.php?task=edit&id=%s">Edit</a> | <a class="delete" href="./index.php?task=delete&id=%s">Delete</a>', $student['id'], $student['id'] )?>
+                <?php printf('<a href="./index.php?task=edit&id=%s">Edit</a> | <a class="delete" href="./index.php?task=delete&id=%s">Delete</a>', $student['id'], $student['id'])?>
             </td>
         </tr>
         <?php endforeach;?>
